@@ -120,13 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
         capturedImageBlob = await captureWebcamFrame();
         console.log('[PTTController] Captured frame snapshot.');
 
-        // Initialize MediaRecorder for audio
+        // Initialize MediaRecorder for audio (Extracting only audio tracks to prevent NotSupportedError with audio/webm mimeType)
         try {
+            const audioStream = new MediaStream(mediaStream.getAudioTracks());
             const options = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
                 ? { mimeType: 'audio/webm;codecs=opus' }
                 : {};
             
-            mediaRecorder = new MediaRecorder(mediaStream, options);
+            mediaRecorder = new MediaRecorder(audioStream, options);
             
             mediaRecorder.ondataavailable = (evt) => {
                 if (evt.data && evt.data.size > 0) {

@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
         voiceStatus.style.color = 'var(--accent-red)';
 
         const audioChunks = [];
-        const recorder = new MediaRecorder(mediaStream);
+        const audioStream = new MediaStream(mediaStream.getAudioTracks());
+        const recorder = new MediaRecorder(audioStream);
 
         recorder.ondataavailable = (e) => {
             if (e.data.size > 0) audioChunks.push(e.data);
