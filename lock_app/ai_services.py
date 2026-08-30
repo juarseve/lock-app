@@ -52,8 +52,8 @@ def get_whisper_model():
     if _WHISPER_MODEL is None:
         try:
             from faster_whisper import WhisperModel
-            logger.info("[AIService] Initializing Faster-Whisper 'base' model for CPU (int8)...")
-            _WHISPER_MODEL = WhisperModel("base", device="cpu", compute_type="int8")
+            logger.info("[AIService] Initializing Faster-Whisper 'medium' model for CPU (int8)...")
+            _WHISPER_MODEL = WhisperModel("medium", device="cpu", compute_type="int8")
             logger.info("[AIService] Faster-Whisper model initialized successfully.")
         except Exception as e:
             logger.warning(f"[AIService] Could not initialize Faster-Whisper: {e}.")
