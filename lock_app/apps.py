@@ -3,4 +3,4 @@ from django.apps import AppConfig
 class LockAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'lock_app'
-    verbose_name = 'Biometric Smart Lock App'
+    verbose_name = 'Smart Lock App'

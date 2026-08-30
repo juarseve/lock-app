@@ -1,6 +1,6 @@
 """
 Django settings for smart_lock_project.
-Configured for Biometric Smart Lock system on Debian 13 (CPU execution).
+Configured for Smart Lock system on Debian 13 (CPU execution).
 """
 
 from pathlib import Path
