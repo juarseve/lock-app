@@ -1,6 +1,6 @@
 """
 Serial Communication Controller for ESP32 Microcontroller.
-Handles physical lock triggering via PySerial on Linux Debian 13 (/dev/ttyUSB0, /dev/ttyACM0)
+Handles physical lock triggering via PySerial on Linux Debian 13 (/dev/ttyUSB0)
 or cross-platform USB serial ports.
 """
 
@@ -29,7 +29,7 @@ def check_esp32_connection(port='/dev/ttyUSB0'):
         }
 
 
-def send_unlock_command(command=b'OPEN\n', port=None, baudrate=115200, timeout=2.0):
+def send_unlock_command(command=b'OPEN\n', port='/dev/ttyUSB0', baudrate=115200, timeout=2.0):
     """
     Sends the physical unlock command (default: b'OPEN\\n') to the ESP32 via Serial.
     
@@ -42,7 +42,7 @@ def send_unlock_command(command=b'OPEN\n', port=None, baudrate=115200, timeout=2
     Returns:
         dict: {'success': bool, 'port': str, 'response': str, 'message': str}
     """
-    target_port = port or detect_esp32_port()
+    target_port = port
     logger.info(f"[SerialController] Attempting to open serial connection on {target_port} at {baudrate} baud...")
     
     try:
