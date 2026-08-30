@@ -74,12 +74,12 @@
                     <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                     <circle cx="8.5" cy="7" r="4"></circle>
                 </svg>
-                Registro de Nuevo Usuario
+                Nuevo Usuario
             </h2>
 
             <form id="register-form">
                 <div class="form-group">
-                    <label class="form-label" for="name-input">Nombre Completo del Usuario</label>
+                    <label class="form-label" for="name-input">Nombre</label>
                     <input type="text" id="name-input" class="form-input" placeholder="Ej: Juan Pérez" required>
                 </div>
 
@@ -90,12 +90,12 @@
                     style="background: rgba(10,15,29,0.5); padding: 1rem; border-radius: 10px; border: 1px solid rgba(0,240,255,0.15);">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                        <strong style="font-size: 0.9rem;">1. Captura de Rostro (InsightFace)</strong>
+                        <strong style="font-size: 0.9rem;">1. Captura de Rostro</strong>
                         <span id="face-status" class="step-badge">No Capturado</span>
                     </div>
                     <button type="button" id="btn-capture-face" class="cyber-btn cyber-btn-cyan"
                         style="width: 100%; font-size: 0.85rem; padding: 0.6rem;">
-                        📸 Tomar Foto de la Cámara Web
+                        Tomar Foto
                     </button>
                 </div>
 
@@ -104,19 +104,19 @@
                     style="background: rgba(10,15,29,0.5); padding: 1rem; border-radius: 10px; border: 1px solid rgba(157,78,221,0.2);">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                        <strong style="font-size: 0.9rem;">2. Muestra de Voz (SpeechBrain)</strong>
-                        <span id="voice-status" class="step-badge">Opcional / No Grabada</span>
+                        <strong style="font-size: 0.9rem;">2. Muestra de Voz</strong>
+                        <span id="voice-status" class="step-badge">No Grabado</span>
                     </div>
                     <button type="button" id="btn-record-voice" class="cyber-btn cyber-btn-purple"
                         style="width: 100%; font-size: 0.85rem; padding: 0.6rem;">
-                        🎙️ Grabar Muestra de Voz (5 Segundos)
+                        Grabar Muestra de Voz
                     </button>
                     <audio id="audio-preview" controls
                         style="width: 100%; margin-top: 0.8rem; display: none; height: 35px;"></audio>
                 </div>
 
                 <button type="submit" class="cyber-btn cyber-btn-cyan" style="width: 100%; margin-top: 1rem;">
-                    💾 Guardar Usuario Biométrico
+                    Guardar Usuario
                 </button>
             </form>
 

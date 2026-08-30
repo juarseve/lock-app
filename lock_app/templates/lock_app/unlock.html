@@ -90,10 +90,10 @@
 
             {% if user_count == 0 %}
             <div class="lock-state-banner denied" style="margin-top: 1.5rem;">
-                <strong>⚠️ No hay usuarios registrados</strong><br>
-                <span style="font-size: 0.85rem;">Debes <a href="{% url 'lock_app:register' %}"
+                <strong>No hay usuarios registrados</strong><br>
+                <span style="font-size: 0.85rem;">Debe <a href="{% url 'lock_app:register' %}"
                         style="color: var(--accent-neon); text-decoration: underline;">registrar un usuario aquí</a> con
-                    sus datos biométricos antes de operar el desbloqueo.</span>
+                    sus datos antes de operar el desbloqueo.</span>
             </div>
             {% endif %}
 
@@ -221,8 +221,7 @@
                     <li><strong>{{ user.name }}</strong> &mdash; Frase requerida: <em>"{{ user.secret_phrase }}"</em>
                     </li>
                     {% empty %}
-                    <li style="color: var(--accent-red);">No hay usuarios registrados. <a
-                            href="{% url 'lock_app:register' %}" style="color: var(--accent-cyan);">Registrar ahora</a>
+                    <li style="color: var(--accent-red);">No hay usuarios registrados.
                     </li>
                     {% endfor %}
                 </ul>

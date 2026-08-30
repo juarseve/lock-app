@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const regSnapshotCanvas = document.getElementById('reg-snapshot-canvas');
     const btnCaptureFace = document.getElementById('btn-capture-face');
     const faceStatus = document.getElementById('face-status');
-    
+
     const btnRecordVoice = document.getElementById('btn-record-voice');
     const voiceStatus = document.getElementById('voice-status');
     const audioPreview = document.getElementById('audio-preview');
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         regResponseMsg.style.display = 'block';
         regResponseMsg.className = 'lock-state-banner';
-        regResponseMsg.innerHTML = '⏳ Procesando modelos de IA en CPU...<br><span style="font-size: 0.82rem; color: var(--text-muted);">1. InsightFace (Vector 512-d) &bull; 2. Faster-Whisper (STT Frase) &bull; 3. SpeechBrain (ECAPA-TDNN)</span>';
+        regResponseMsg.innerHTML = 'Procesando información...<br><span style="font-size: 0.82rem; color: var(--text-muted);">1. Vector de rostro &bull; 2. Frase Speech-to-Text &bull; 3. Vector de voz</span>';
 
         try {
             const response = await fetch('/api/register/', {
@@ -153,9 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 regResponseMsg.innerHTML = `
                     <strong style="font-size: 1.1rem; color: var(--accent-neon);">${data.message}</strong>
                     <div style="text-align: left; background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 8px; margin-top: 0.8rem; font-size: 0.85rem; line-height: 1.6;">
-                        📌 <strong>Frase Asignada (Whisper):</strong> <em style="color: var(--accent-cyan);">"${data.assigned_phrase}"</em><br>
-                        👤 <strong>Biometría Facial:</strong> ${data.face_status}<br>
-                        🎙️ <strong>Biometría Vocal:</strong> ${data.voice_status}
+                        <strong>Frase Asignada:</strong> <em style="color: var(--accent-cyan);">"${data.assigned_phrase}"</em><br>
+                        <strong>Biometría Facial:</strong> ${data.face_status}<br>
+                        <strong>Biometría Vocal:</strong> ${data.voice_status}
                     </div>
                     <div style="margin-top: 1rem;">
                         <a href="/unlock/" class="cyber-btn cyber-btn-cyan" style="font-size: 0.85rem; padding: 0.5rem 1rem;">Ir a Operar la Cerradura &rarr;</a>

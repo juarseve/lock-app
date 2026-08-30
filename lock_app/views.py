@@ -133,8 +133,8 @@ def register_user(request):
             'message': f"¡Usuario '{user.name}' registrado exitosamente!",
             'user_id': user.id,
             'assigned_phrase': phrase,
-            'face_status': '✓ Biometría Facial Registrada (InsightFace 512-d)',
-            'voice_status': f"✓ Biometría Vocal Registrada (SpeechBrain). {voice_details}" if audio_file else "⚠️ Sin grabación de voz."
+            'face_status': '✓ Registrado',
+            'voice_status': f"✓ Registrado {voice_details}" if audio_file else "Sin grabación de voz."
         })
 
     except Exception as e:
