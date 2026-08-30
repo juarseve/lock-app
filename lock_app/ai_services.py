@@ -30,8 +30,8 @@ def get_face_app():
     if _FACE_APP is None:
         try:
             import insightface
-            logger.info("[AIService] Initializing InsightFace buffalo_s model for CPU Execution...")
-            app = insightface.app.Analysis(
+            logger.info("[AIService] Initializing InsightFace buffalo_s model...")
+            app = insightface.app.FaceAnalysis(
                 name='buffalo_s', 
                 providers=['CPUExecutionProvider']
             )
