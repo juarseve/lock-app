@@ -134,7 +134,7 @@ def register_user(request):
             'user_id': user.id,
             'assigned_phrase': phrase,
             'face_status': '✓ Registrado',
-            'voice_status': f"✓ Registrado {voice_details}" if audio_file else "Sin grabación de voz."
+            'voice_status': f"✓ Registrado - {voice_details}" if audio_file else "Sin grabación de voz."
         })
 
     except Exception as e:

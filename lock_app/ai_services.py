@@ -71,7 +71,7 @@ def get_speechbrain_model():
             from speechbrain.inference.speaker import SpeakerRecognition
             logger.info("[AIService] Initializing SpeechBrain ECAPA-TDNN model on CPU...")
             _SPEECHBRAIN_MODEL = SpeakerRecognition.from_hparams(
-                source="speechbrain/spkrec-ecapa-tdnn",
+                source="speechbrain/spkrec-ecapa-voxceleb",
                 savedir=os.path.join(tempfile.gettempdir(), "speechbrain_ecapa"),
                 run_opts={"device": "cpu"}
             )
@@ -180,7 +180,7 @@ def extract_voice_embedding(audio_bytes):
         embeddings = spk_model.encode_batch(signal)
         vector = embeddings.squeeze().cpu().numpy()
         logger.info(f"[AIService] Voice embedding vector extracted ({len(vector)} dims).")
-        return True, vector, "Huella vocal (Biometría de voz) extraída exitosamente."
+        return True, vector, "Huella vocal extraída exitosamente."
 
     except Exception as e:
         logger.error(f"[AIService] Error extrayendo huella vocal SpeechBrain: {e}")
