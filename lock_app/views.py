@@ -1,5 +1,7 @@
 import logging
 import json
+import re
+import unicodedata
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
@@ -16,6 +18,15 @@ from .ai_services import (
 )
 
 logger = logging.getLogger(__name__)
+
+def normalize_text(text):
+    """Limpia el texto convirtiendo a minúsculas, quitando acentos y signos de puntuación."""
+    if not text:
+        return ""
+    text = text.lower()
+    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8')
+    text = re.sub(r'[^\w\s]', '', text)
+    return text.strip()
 
 FACE_SIMILARITY_THRESHOLD = 0.40  # Cosine similarity threshold for InsightFace
 
@@ -115,6 +126,8 @@ def register_user(request):
 
         if not phrase:
             phrase = "sesamo abrete"  # Frase por defecto si no se proporcionó audio ni texto
+
+        phrase = normalize_text(phrase)
 
         user = UserProfile(name=name, secret_phrase=phrase)
         user.set_facial_embedding(face_embedding)
@@ -232,9 +245,8 @@ def authenticate_user(request):
         }
 
         # Paso 4: Coincidencia de Frase Clave
-        import re
-        norm_transcription = re.sub(r'[^\w\s]', '', clean_transcription)
-        norm_expected = re.sub(r'[^\w\s]', '', expected_phrase)
+        norm_transcription = normalize_text(transcribed_text)
+        norm_expected = normalize_text(matched_user.secret_phrase)
 
         phrase_matches = (norm_expected in norm_transcription) or (norm_transcription in norm_expected)
 
