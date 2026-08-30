@@ -60,7 +60,7 @@
     <main class="main-container">
 
         <div class="home-hero">
-            <h1>Sistema de Cerradura Biométrica 3-FA</h1>
+            <h1>Sistema de Cerradura Biométrica</h1>
             <p>Control de acceso inteligente por Reconocimiento Facial (InsightFace), Frase Clave (Faster-Whisper) y
                 Biometría Vocal (SpeechBrain).</p>
         </div>
@@ -111,45 +111,10 @@
             </div>
         </div>
 
-        <!-- System Summary Footer Banner -->
-        <div style="margin-top: 3rem;" class="cyber-card">
-            <h2 class="card-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-                Estado del Sistema
-            </h2>
-            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                <div>
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">USUARIOS REGISTRADOS:</span>
-                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-cyan);">{{ user_count }}
-                        usuario(s)</div>
-                </div>
-                <div>
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">ESTADO ESP32 (SERIAL):</span>
-                    <div
-                        style="font-size: 1.5rem; font-weight: bold; color: {% if serial_info.connected %}var(--accent-neon){% else %}var(--accent-red){% endif %};">
-                        {% if serial_info.connected %}
-                        CONECTADO ({{ serial_info.port }})
-                        {% else %}
-                        DESCONECTADO (No se detectó microcontrolador)
-                        {% endif %}
-                    </div>
-                </div>
-                <div>
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">MODO INFERENCIA IA:</span>
-                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--text-main);">CPU (Debian 13 Intel i5)
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </main>
 
     <footer>
-        Sistema de Cerradura Inteligente Biométrica 3-FA &bull; Debian 13
+        Sistema de Cerradura Inteligente &bull; Nombre del Equipo
     </footer>
 
     <script src="{% static 'js/header_status.js' %}"></script>
