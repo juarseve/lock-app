@@ -77,14 +77,13 @@ def register_user(request):
     """
     try:
         name = request.POST.get('name', '').strip()
-        manual_phrase = request.POST.get('secret_phrase', '').strip()
         image_file = request.FILES.get('image')
         audio_file = request.FILES.get('audio')
 
-        if not name or not image_file:
+        if not name or not image_file or not audio_file:
             return JsonResponse({
                 'success': False,
-                'message': 'Por favor ingresa el Nombre y toma la Captura de Rostro.'
+                'message': 'Por favor ingresa el Nombre, toma la Captura de Rostro y graba una muestra de voz.'
             }, status=400)
 
         # 1. Extraer Rostro con InsightFace
@@ -98,7 +97,7 @@ def register_user(request):
             }, status=400)
 
         # 2. Procesar Muestra de Voz (Whisper STT & SpeechBrain Biometría Vocal)
-        final_phrase = manual_phrase
+        phrase = None
         voice_vector = None
         voice_details = "Sin muestra de voz registrada."
 
@@ -108,16 +107,16 @@ def register_user(request):
             # Transcribir audio con Faster-Whisper para establecer la frase de referencia exacta
             whisper_text = transcribe_audio_whisper(audio_bytes)
             if whisper_text and len(whisper_text.strip()) > 0:
-                final_phrase = whisper_text.strip()
-                logger.info(f"[Register] Frase generada automáticamente por Whisper: '{final_phrase}'")
+                phrase = whisper_text.strip()
+                logger.info(f"[Register] Frase generada automáticamente por Whisper: '{phrase}'")
 
             # Extraer huella de voz con SpeechBrain
             v_success, voice_vector, voice_details = extract_voice_embedding(audio_bytes)
 
-        if not final_phrase:
-            final_phrase = "sesamo abrete"  # Frase por defecto si no se proporcionó audio ni texto
+        if not phrase:
+            phrase = "sesamo abrete"  # Frase por defecto si no se proporcionó audio ni texto
 
-        user = UserProfile(name=name, secret_phrase=final_phrase)
+        user = UserProfile(name=name, secret_phrase=phrase)
         user.set_facial_embedding(face_embedding)
 
         if voice_vector is not None:
@@ -127,13 +126,13 @@ def register_user(request):
             user.voice_sample = audio_file
 
         user.save()
-        logger.info(f"[Views] Nuevo usuario registrado: '{user.name}' | Frase Whisper: '{final_phrase}'")
+        logger.info(f"[Views] Nuevo usuario registrado: '{user.name}' | Frase Whisper: '{phrase}'")
 
         return JsonResponse({
             'success': True,
             'message': f"¡Usuario '{user.name}' registrado exitosamente!",
             'user_id': user.id,
-            'assigned_phrase': final_phrase,
+            'assigned_phrase': phrase,
             'face_status': '✓ Biometría Facial Registrada (InsightFace 512-d)',
             'voice_status': f"✓ Biometría Vocal Registrada (SpeechBrain). {voice_details}" if audio_file else "⚠️ Sin grabación de voz."
         })

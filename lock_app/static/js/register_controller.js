@@ -111,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         const name = document.getElementById('name-input').value.trim();
-        const secretPhrase = document.getElementById('phrase-input').value.trim();
 
         if (!name) {
             alert('Por favor ingresa el Nombre del usuario.');
@@ -123,13 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (!capturedVoiceBlob) {
+            alert('Por favor graba una muestra de voz para que Faster-Whisper asigne tu frase secreta automáticamente.');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('name', name);
-        formData.append('secret_phrase', secretPhrase);
         formData.append('image', capturedFaceBlob, 'face_capture.jpg');
-        if (capturedVoiceBlob) {
-            formData.append('audio', capturedVoiceBlob, 'voice_sample.webm');
-        }
+        formData.append('audio', capturedVoiceBlob, 'voice_sample.webm');
 
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 

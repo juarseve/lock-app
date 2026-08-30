@@ -141,7 +141,7 @@ def transcribe_audio_whisper(audio_bytes):
         whisper = get_whisper_model()
         if whisper == 'FALLBACK' or whisper is None:
             logger.info("[AIService] Faster-Whisper fallback active.")
-            return "SESAMO ABRETE"  # Fallback text matching default phrase for testing
+            return "abrete sesamo"  # Fallback text matching default phrase for testing
 
         segments, info = whisper.transcribe(temp_path, beam_size=5, language="es")
         transcribed_text = " ".join([segment.text for segment in segments]).strip()
