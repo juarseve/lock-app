@@ -61,8 +61,7 @@
 
         <div class="home-hero">
             <h1>Sistema de Cerradura Biométrica</h1>
-            <p>Control de acceso inteligente por Reconocimiento Facial (InsightFace), Frase Clave (Faster-Whisper) y
-                Biometría Vocal (SpeechBrain).</p>
+            <p>Control de acceso inteligente por Reconocimiento Facial, Frase Clave y Biometría Vocal.</p>
         </div>
 
         <div class="home-grid">
@@ -78,10 +77,9 @@
                             <line x1="17" y1="11" x2="23" y2="11"></line>
                         </svg>
                     </div>
-                    <div class="action-title">1. Registrar Datos Biométricos</div>
+                    <div class="action-title">1. Registrar Usuario</div>
                     <div class="action-desc">
-                        Captura tu rostro con la cámara web, graba una muestra de voz con el micrófono y asigna tu frase
-                        secreta de acceso.
+                        Capture un rostro con la cámara web y grabe una muestra de voz.
                     </div>
                 </div>
                 <a href="{% url 'lock_app:register' %}" class="cyber-btn cyber-btn-purple">
@@ -99,10 +97,10 @@
                             <path d="M7 11V7a5 5% 0 0 1 10 0v4"></path>
                         </svg>
                     </div>
-                    <div class="action-title">2. Desbloquear Cerradura (PTT)</div>
+                    <div class="action-title">2. Desbloquear Cerradura</div>
                     <div class="action-desc">
-                        Usa el botón Push-To-Talk para verificar tu rostro, pronunciar tu frase clave y validar tu
-                        identidad vocal en tiempo real.
+                        Use el botón Push-To-Talk para verificar su rostro y pronuncie su frase clave para validar su
+                        identidad.
                     </div>
                 </div>
                 <a href="{% url 'lock_app:unlock' %}" class="cyber-btn cyber-btn-cyan">

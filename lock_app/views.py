@@ -293,7 +293,7 @@ def authenticate_user(request):
         }
 
         pipeline_result['success'] = True
-        pipeline_result['message'] = f"¡AUTENTICACIÓN EXITOSA! Bienvenido {matched_user.name}. Cerradura Desbloqueada."
+        pipeline_result['message'] = f"¡AUTENTICACIÓN EXITOSA! Bienvenido {matched_user.name}."
         return JsonResponse(pipeline_result, status=200)
 
     except Exception as e:

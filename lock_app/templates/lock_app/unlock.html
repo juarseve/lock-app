@@ -108,8 +108,7 @@
                     </svg>
                     <span>Push-To-Talk</span>
                 </button>
-                <div id="ptt-instruction" class="ptt-instruction">Mantenga presionado el botón para hablar y ser
-                    escaneado</div>
+                <div id="ptt-instruction" class="ptt-instruction">Mantenga presionado el botón para hablar</div>
                 <div id="ptt-timer" class="ptt-timer">0.0s</div>
             </div>
         </section>
@@ -120,7 +119,7 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                 </svg>
-                Pipeline de Autenticación (3-FA)
+                Flujo de Autenticación
             </h2>
 
             <div class="pipeline-list">
@@ -136,7 +135,7 @@
                     </div>
                     <div class="step-info">
                         <div class="step-title">Paso 1: Recepción de Datos</div>
-                        <div class="step-desc">En espera de envío de foto y audio desde PTT...</div>
+                        <div class="step-desc">En espera de envío de foto y audio...</div>
                     </div>
                     <div class="step-badge">Pendiente</div>
                 </div>
@@ -167,7 +166,7 @@
                     </div>
                     <div class="step-info">
                         <div class="step-title">Paso 3: Frase Clave</div>
-                        <div class="step-desc">Faster-Whisper int8 transcribiendo y validando frase...</div>
+                        <div class="step-desc">Transcribiendo y validando frase...</div>
                     </div>
                     <div class="step-badge">Pendiente</div>
                 </div>
@@ -183,7 +182,7 @@
                     </div>
                     <div class="step-info">
                         <div class="step-title">Paso 4: Biometría Vocal</div>
-                        <div class="step-desc">ECAPA-TDNN verificando huella de voz...</div>
+                        <div class="step-desc">Verificando huella de voz...</div>
                     </div>
                     <div class="step-badge">Pendiente</div>
                 </div>
@@ -209,8 +208,7 @@
             <!-- Master Lock Banner -->
             <div id="lock-state-banner" class="lock-state-banner">
                 <div id="lock-state-title" class="lock-state-title">CERRADURA BLOQUEADA</div>
-                <div id="lock-state-desc" class="lock-state-desc">Sistema de Seguridad Listo. Presione PTT para
-                    autenticar.</div>
+                <div id="lock-state-desc" class="lock-state-desc">Sistema de Seguridad Listo.</div>
             </div>
 
             <!-- Registered Users Info -->
@@ -230,7 +228,7 @@
     </main>
 
     <footer>
-        Sistema de Cerradura Inteligente Biométrica 3-FA &bull; Módulo de Operación PTT
+        Sistema de Cerradura Inteligente &bull; Nombre del Equipo
     </footer>
 
     <script src="{% static 'js/header_status.js' %}"></script>
