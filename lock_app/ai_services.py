@@ -13,8 +13,25 @@ import logging
 import tempfile
 import numpy as np
 import cv2
+import subprocess
 
 logger = logging.getLogger(__name__)
+
+def convert_to_wav_ffmpeg(input_path):
+    """
+    Converts any audio file (e.g. WebM/Opus) to 16kHz mono PCM WAV via FFmpeg.
+    Returns the path to the converted WAV file, or the original path if it fails.
+    """
+    out_path = input_path + "_conv.wav"
+    try:
+        subprocess.run(
+            ['ffmpeg', '-y', '-i', input_path, '-ar', '16000', '-ac', '1', '-c:a', 'pcm_s16le', out_path],
+            check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
+        return out_path
+    except Exception as e:
+        logger.error(f"[AIService] FFmpeg conversion failed (is ffmpeg installed?): {e}")
+        return input_path
 
 # Singletons for lazy-loaded AI models
 _FACE_APP = None
@@ -133,17 +150,20 @@ def transcribe_audio_whisper(audio_bytes):
     runs Faster-Whisper STT, and returns transcribed text.
     """
     temp_path = None
+    converted_path = None
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as temp_audio:
             temp_audio.write(audio_bytes)
             temp_path = temp_audio.name
+            
+        converted_path = convert_to_wav_ffmpeg(temp_path)
 
         whisper = get_whisper_model()
         if whisper == 'FALLBACK' or whisper is None:
             logger.info("[AIService] Faster-Whisper fallback active.")
             return "abrete sesamo"  # Fallback text matching default phrase for testing
 
-        segments, info = whisper.transcribe(temp_path, beam_size=5, language="es")
+        segments, info = whisper.transcribe(converted_path, beam_size=5, language="es")
         transcribed_text = " ".join([segment.text for segment in segments]).strip()
         logger.info(f"[AIService] Faster-Whisper transcription: '{transcribed_text}'")
         return transcribed_text
@@ -152,11 +172,12 @@ def transcribe_audio_whisper(audio_bytes):
         logger.error(f"[AIService] Error transcribiendo audio con Whisper: {e}")
         return ""
     finally:
-        if temp_path and os.path.exists(temp_path):
-            try:
-                os.remove(temp_path)
-            except Exception:
-                pass
+        for p in [temp_path, converted_path]:
+            if p and os.path.exists(p):
+                try:
+                    os.remove(p)
+                except Exception:
+                    pass
 
 
 def extract_voice_embedding(audio_bytes):
@@ -165,10 +186,13 @@ def extract_voice_embedding(audio_bytes):
     Returns (success: bool, embedding_vector: np.ndarray, message: str).
     """
     temp_path = None
+    converted_path = None
     try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as temp_audio:
             temp_audio.write(audio_bytes)
             temp_path = temp_audio.name
+            
+        converted_path = convert_to_wav_ffmpeg(temp_path)
 
         spk_model = get_speechbrain_model()
         if spk_model == 'FALLBACK' or spk_model is None:
@@ -176,7 +200,7 @@ def extract_voice_embedding(audio_bytes):
             dummy_vec = np.ones(192, dtype=np.float32) / np.sqrt(192)
             return True, dummy_vec, "Huella vocal generada (Modo de demostración)."
 
-        signal = spk_model.load_audio(temp_path)
+        signal = spk_model.load_audio(converted_path)
         embeddings = spk_model.encode_batch(signal)
         vector = embeddings.squeeze().cpu().numpy()
         logger.info(f"[AIService] Voice embedding vector extracted ({len(vector)} dims).")
@@ -187,11 +211,12 @@ def extract_voice_embedding(audio_bytes):
         dummy_vec = np.ones(192, dtype=np.float32) / np.sqrt(192)
         return True, dummy_vec, f"Huella vocal registrada con advertencia: {str(e)}"
     finally:
-        if temp_path and os.path.exists(temp_path):
-            try:
-                os.remove(temp_path)
-            except Exception:
-                pass
+        for p in [temp_path, converted_path]:
+            if p and os.path.exists(p):
+                try:
+                    os.remove(p)
+                except Exception:
+                    pass
 
 
 def verify_speaker_voice(audio_bytes, user_voice_embedding=None, reference_audio_path=None):
@@ -200,10 +225,13 @@ def verify_speaker_voice(audio_bytes, user_voice_embedding=None, reference_audio
     Returns (verified: bool, score: float, message: str).
     """
     temp_path = None
+    converted_path = None
     try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as temp_audio:
             temp_audio.write(audio_bytes)
             temp_path = temp_audio.name
+            
+        converted_path = convert_to_wav_ffmpeg(temp_path)
 
         spk_model = get_speechbrain_model()
         if spk_model == 'FALLBACK' or spk_model is None:
@@ -212,7 +240,7 @@ def verify_speaker_voice(audio_bytes, user_voice_embedding=None, reference_audio
 
         # Extract current input embedding
         try:
-            signal = spk_model.load_audio(temp_path)
+            signal = spk_model.load_audio(converted_path)
             embeddings = spk_model.encode_batch(signal)
             current_embedding = embeddings.squeeze().cpu().numpy()
         except Exception as load_err:
@@ -241,8 +269,9 @@ def verify_speaker_voice(audio_bytes, user_voice_embedding=None, reference_audio
         logger.error(f"[AIService] Error en verificación de locutor SpeechBrain: {e}")
         return True, 0.75, f"Verificación vocal aprobada (Compatibilidad audio): {str(e)}"
     finally:
-        if temp_path and os.path.exists(temp_path):
-            try:
-                os.remove(temp_path)
-            except Exception:
-                pass
+        for p in [temp_path, converted_path]:
+            if p and os.path.exists(p):
+                try:
+                    os.remove(p)
+                except Exception:
+                    pass
