@@ -253,14 +253,14 @@ def authenticate_user(request):
         if not phrase_matches:
             pipeline_result['step4_phrase_match'] = {
                 'success': False,
-                'details': f"La frase esperada ('{matched_user.secret_phrase}') no coincide con lo dicho ('{transcribed_text}')."
+                'details': f"La frase esperada no coincide con lo dicho ('{transcribed_text}')."
             }
             pipeline_result['message'] = f"Acceso Denegado - Paso 4: Frase clave incorrecta para {matched_user.name}."
             return JsonResponse(pipeline_result, status=200)
 
         pipeline_result['step4_phrase_match'] = {
             'success': True,
-            'details': f"Frase secreta verificada correctamente ('{matched_user.secret_phrase}')."
+            'details': f"Frase secreta verificada correctamente."
         }
 
         # Paso 5: Biometría Vocal (SpeechBrain)

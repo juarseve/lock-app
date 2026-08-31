@@ -216,7 +216,7 @@
                 <strong style="color: var(--text-main);">Usuarios Registrados ({{ user_count }}):</strong>
                 <ul style="margin-top: 0.4rem; padding-left: 1.2rem;">
                     {% for user in users %}
-                    <li><strong>{{ user.name }}</strong> &mdash; Frase requerida: <em>"{{ user.secret_phrase }}"</em>
+                    <li><strong>{{ user.name }}</strong>
                     </li>
                     {% empty %}
                     <li style="color: var(--accent-red);">No hay usuarios registrados.
